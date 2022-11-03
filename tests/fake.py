@@ -1,8 +1,8 @@
 from random import randint
 from sqlalchemy.exc import IntegrityError
 from faker import Faker
-from . import db
-from .model import Users
+from app import db
+from app.model import Users
 
 
 def add_data(user_amount=11):

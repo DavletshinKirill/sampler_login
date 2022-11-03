@@ -1,6 +1,6 @@
 from unittest import TestCase
 from app import create_app, db
-from app.fake import add_data
+from tests.fake import add_data
 from app.model import Users
 
 
