@@ -1,4 +1,7 @@
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 password = "zaq1@WSX"
 
 
@@ -14,7 +17,7 @@ class Config:
 class DevelopmentConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI') \
-                              or "postgresql://postgres:qwerty@localhost:5432/test"
+                              or os.getenv('SQLALCHEMY_DATABASE_URI_default_config')
 
 
 class TestingConfig(Config):
