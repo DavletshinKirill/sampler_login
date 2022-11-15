@@ -1,10 +1,11 @@
 from flask import flash, url_for, redirect, render_template, request, session
 from . import auth
 from .form import LoginForm, RegistrationForm
-from ..model import Users, db
+from ..model import Users, db, Model
 from .. import login_manager
 from flask_login import login_user, logout_user, login_required
 from ..decorators import admin_required
+
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -54,6 +55,7 @@ def admin():
 @auth.route("/success")
 @login_required
 def success():
+    model = Model.query.all()
     return render_template("log_in.html", title="log in", permission="You are an Admin")
 
 

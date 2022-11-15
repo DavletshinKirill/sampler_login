@@ -1,6 +1,7 @@
 import enum
-from flask import session, request
-from flask_login import UserMixin
+
+from flask import abort
+from flask_login import UserMixin, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from app import db
@@ -14,8 +15,17 @@ class Permissions(enum.Enum):
     MODERATE = "MODERATE"
     ADMIN = "ADMIN"
 
+
+# permissions_dictionary = {
+#     "ADMIN": [Permissions.ADMIN],
+#     "MODERATE": [Permissions.MODERATE, Permissions.ADMIN],
+#     "WRITE": [Permissions.MODERATE, Permissions.ADMIN, Permissions.WRITE],
+#     "COMMENT": [Permissions.MODERATE, Permissions.ADMIN, Permissions.WRITE, Permissions.COMMENT],
+#     "FOLLOW": [Permissions.MODERATE, Permissions.ADMIN, Permissions.WRITE, Permissions.COMMENT, Permissions.FOLLOW]
+# }
+
 class Users(db.Model, UserMixin):
-    __tablename__ = 'user'
+    __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_name = db.Column(db.String(70), unique=True)
     password = db.Column(db.Text)
@@ -39,9 +49,14 @@ class Users(db.Model, UserMixin):
         return self.permission is not None and self.permission == perm
 
 
-@event.listens_for(Users, "loaded_as_persistent")
-def add_user( session ,  instance ):
-    user = Users.query.get(request.args.get('user_id'))
-    print(user)
-    print('function is called')
-    #if permissions_dictionary["ADMIN"]
+class Model(db.Model):
+    __tablename__ = 'models'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    title = db.Column(db.String(70), unique=True)
+    price = db.Column(db.Integer())
+
+
+@event.listens_for(Model, "load")
+def load_event(user, instance):
+    if not current_user.can(Permissions.WRITE):
+        abort(403)

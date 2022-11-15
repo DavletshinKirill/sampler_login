@@ -1,5 +1,4 @@
 import os
-password = "zaq1@WSX"
 
 
 class Config:
@@ -14,7 +13,7 @@ class Config:
 class DevelopmentConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI') \
-                              or "postgresql://postgres:qwerty@localhost:5432/test"
+                              or "postgresql://postgres:qwerty@localhost:5432/second_test"
 
 
 class TestingConfig(Config):

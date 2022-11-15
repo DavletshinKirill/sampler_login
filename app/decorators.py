@@ -17,3 +17,11 @@ def permission_required(permission):
 
 def admin_required(f):
    return permission_required(Permissions.ADMIN)(f)
+
+
+def moderator_required(f):
+   return permission_required(Permissions.ADMIN)(f)
+
+
+def user_required(f):
+   return permission_required(Permissions.ADMIN)(f)
