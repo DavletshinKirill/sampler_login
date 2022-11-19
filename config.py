@@ -16,6 +16,7 @@ class DevelopmentConfig(Config):
                               or "postgresql://postgres:qwerty@localhost:5432/second_test"
 
 
+
 class TestingConfig(Config):
     TESTING = True
     SQLALCHEMY_DATABASE_URI = 'sqlite:///test.db'
